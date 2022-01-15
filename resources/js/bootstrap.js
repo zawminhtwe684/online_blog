@@ -2,6 +2,9 @@ window._ = require('lodash');
 
 try {
     require('bootstrap');
+    window.VenoBox = require('venobox');
+    window.Swal = require('sweetalert2');
+
 } catch (e) {}
 
 /**

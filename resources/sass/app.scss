@@ -7,3 +7,18 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import "~venobox/dist/venobox.min.css";
+
+.img-del-btn{
+    margin-top: -55px;
+}
+.uploader-ui{
+    width: 100px;
+    height: 100px;
+}
+.post-thumbnail-img{
+    margin-left: -20px;
+}
+a > .post-thumbnail-img:first-child {
+    margin-left: 0px !important;
+}
