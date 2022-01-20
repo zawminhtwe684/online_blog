@@ -50,8 +50,10 @@ class PostController extends Controller
             "title" => "required|unique:posts,title|min:3",
             "category" => "required|integer|exists:categories,id",
             "description" => "required|min:20",
-            "photo" => "required",
-            "photo.*" => "file|max:3500|mimes:jpg,png"
+            "photos" => "required",
+            "photos.*" => "file|max:3500|mimes:jpg,png",
+            "tags" => "required",
+            "tags.*" => "integer|exists:tags,id"
         ]);
 
 
@@ -65,14 +67,16 @@ class PostController extends Controller
         $post->is_publish = true;
         $post->save();
 
+        //save tags to pivot table
+        $post->tags()->attach($request->tags);
 
 //        file တည်ဆောက်ခြင်း
         if (!Storage::exists("public/thumbnail")) {
             Storage::makeDirectory("public/thumbnail");
         }
 
-        if ($request->hasFile("photo")) {
-            foreach ($request->file('photo') as $photo) {
+        if ($request->hasFile("photos")) {
+            foreach ($request->file('photos') as $photo) {
                 //store file
                 $newName = uniqid() . "_photo." . $photo->extension();
 
@@ -148,6 +152,11 @@ class PostController extends Controller
         $post->category_id = $request->category;
         $post->update();
 
+        //delete all record form pivot
+        $post->tags()->detach();
+
+        //save tags to pivot table
+        $post->tags()->attach($request->tags);
 
         return redirect()->route('post.index')->with('status', "Post Updated");
     }
@@ -169,6 +178,11 @@ class PostController extends Controller
         }
         //delete all record from hasMany
         $post->photos()->delete();
+
+        //delete all record form pivot
+        $post->tags()->detach();
+
+
         $post->delete();
         return redirect()->back()->with('status', "Post Deleted");
 

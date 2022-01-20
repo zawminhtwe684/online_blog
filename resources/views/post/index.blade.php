@@ -44,6 +44,7 @@
                                 <th>Photo</th>
                                 <th>Is Publish</th>
                                 <th>Category</th>
+                                <th>Tags</th>
                                 <th>Owner</th>
                                 <th>Control</th>
                                 <th>Created</th>
@@ -65,8 +66,7 @@
                                         @endforelse
 
                                     </td>
-
-                                    <td>
+                                     <td>
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" role="switch"
                                                    id="flexSwitchCheckDefault" {{ $post->is_publish ? 'checked':'' }}>
@@ -76,6 +76,14 @@
                                         </div>
                                     </td>
                                     <td>{{ $post->category->title ?? "Unknown Category" }}</td>
+                                    <td>
+                                        @foreach($post->tags as $tag)
+                                            <span class="badge bg-primary small">
+                                                <i class="fas fa-hashtag"></i>
+                                                {{$tag->title}}
+                                            </span>
+                                        @endforeach
+                                    </td>
                                     <td>
                                         {{ $post->user->name ?? "Unknown User" }}
                                     </td>

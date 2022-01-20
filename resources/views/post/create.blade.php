@@ -34,10 +34,36 @@
                                 <p class="text-danger small">{{ $message }}</p>
                                 @enderror
                             </div>
+
+
+                            <div class="mb-3">
+                                <label for="form-lable" class="form-label">Select Tag</label>
+                                <br>
+                                @foreach(\App\Models\Tag::all() as $tag)
+                                <div class="form-check-inline">
+                                    <label class="form-check-label" for="{{$tag->id}}">
+                                        {{$tag->title}}
+                                    </label>
+                                    <input class="form-check-input" type="checkbox" value="{{$tag->id}}" name="tags[]" id="{{$tag->id}}" {{in_array($tag->id,old('tags',[]))? 'checked':''}} >
+                                </div>
+                                    @endforeach
+                                @error('tags')
+                                <p class="text-danger small">{{ $message }}</p>
+                                @enderror
+                                @error('tags.*')
+                                <p class="text-danger small">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+
+
                             <div class="mb-3">
                                 <label class="form-label">Photo</label>
-                                <input type="file" class="form-control @error('photo') is-invalid @enderror" value="{{ old('photo') }}" name="photo[]" multiple>
-                                @error('photo')
+                                <input type="file" class="form-control @error('photos') is-invalid @enderror" name="photos[]" multiple>
+                                @error('photos')
+                                <p class="text-danger small">{{ $message }}</p>
+                                @enderror
+                                @error('photos.*')
                                 <p class="text-danger small">{{ $message }}</p>
                                 @enderror
                             </div>

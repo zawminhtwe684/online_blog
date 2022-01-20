@@ -38,6 +38,25 @@
                             <p class="text-danger small">{{ $message }}</p>
                             @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="form-lable" class="form-label">Select Tag</label>
+                            <br>
+                            @foreach(\App\Models\Tag::all() as $tag)
+                                <div class="form-check-inline">
+                                    <label class="form-check-label" for="{{$tag->id}}">
+                                        {{$tag->title}}
+                                    </label>
+{{--                                    {{in_array($tag->id,$post->tags->pluck("id")->toArray())?"checked":""}}--}}
+                                    <input form="updateForm" class="form-check-input" type="checkbox" value="{{$tag->id}}" name="tags[]" id="{{$tag->id}}"  {{in_array($tag->id,old('tags',$post->tags->pluck("id")->toArray()))? 'checked':''}}>
+                                </div>
+                            @endforeach
+                            @error('tags')
+                            <p class="text-danger small">{{ $message }}</p>
+                            @enderror
+                            @error('tags.*')
+                            <p class="text-danger small">{{ $message }}</p>
+                            @enderror
+                        </div>
 
                         <div class="">
                             <label for="" class="form-label">Photo</label>
@@ -50,7 +69,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Photo</label>
                                         <input type="file" class="form-control @error('photo') is-invalid @enderror"
-                                               id="photoInput" value="{{ old('photo') }}" name="photo[]" multiple>
+                                               id="photoInput" value="{{ old('photo') }}" name="photos[]" multiple>
                                         @error('photo')
                                         <p class="text-danger small">{{ $message }}</p>
                                         @enderror
@@ -98,9 +117,9 @@
 
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch"
+                                <input class="form-check-input" type="checkbox" role="switch" form="updateForm"
                                        id="flexSwitchCheckDefault" required>
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Confirm</label>
+                                <label class="form-check-label" for="flexSwitchCheckDefault" >Confirm</label>
                             </div>
                             <button class="btn btn-lg btn-primary" form="updateForm">Update Post</button>
                         </div>

@@ -44,8 +44,8 @@ class PhotoController extends Controller
 
         $request->validate([
             "post_id"=>"required|integer",
-            "photo"=>"nullable",
-            "photo.*"=>"file|max:3500|mimes:jpg,png"
+            "photos"=>"nullable",
+            "photos.*"=>"file|max:3500|mimes:jpg,png"
         ]);
 
 //        file တည်ဆောက်ခြင်း
@@ -53,8 +53,8 @@ class PhotoController extends Controller
             Storage::makeDirectory("public/thumbnail");
         }
 
-        if($request->hasFile("photo")){
-            foreach ($request->file('photo')as $photo){
+        if($request->hasFile("photos")){
+            foreach ($request->file('photos')as $photo){
                 //store file
                 $newName= uniqid()."_photo.".$photo->extension();
 

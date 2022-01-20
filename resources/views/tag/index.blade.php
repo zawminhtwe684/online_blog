@@ -9,13 +9,13 @@
                 <div class="card">
 
                     <div class="card-header">
-                        Category List
+                        Tag List
                     </div>
                     <div class="card-body">
 
                         <div class="mb-3">
-                            <a href="{{ route('category.create') }}" class="btn btn-primary">
-                                Create Category
+                            <a href="{{ route('tag.create') }}" class="btn btn-primary">
+                                Create Tag
                             </a>
                         </div>
 
@@ -24,44 +24,36 @@
                                 {{ session('status') }}
                             </p>
                         @endif
+
                         <table class="table table-hover table-bordered align-middle">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Owner</th>
-                                <th>Photo</th>
                                 <th>Control</th>
                                 <th>Created</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse($categories as $category)
+                            @forelse($tags as $tag)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
-                                    <td>{{ $category->title }}</td>
+                                    <td>{{ $tag->id }}</td>
+                                    <td>{{ $tag->title }}</td>
                                     <td>
-                                        {{ $category->user->name ?? "Unknown User" }}
-                                    </td>
-                                    <td>
-                                        @forelse($category->photos()->latest('id')->limit(3)->get() as $photo)
-                                            <a class="venobox" data-gall="{{$category->id}}" href="{{asset("storage/photo/".$photo->name)}}">
-                                                <img src="{{asset("storage/thumbnail/".$photo->name)}}" class="rounded-circle border border-2 shadow-sm post-thumbnail-img" alt="image" height="40px"/>
-                                            </a>
-                                        @empty
-                                            <p class="text-muted">No Photo</p>
-                                        @endforelse
+                                        {{ $tag->user->name ?? "Unknown User" }}
                                     </td>
                                     <td>
 
-                                        <form action="{{ route('category.destroy',$category->id) }}" class="d-inline-block" method="post">
+                                        <form action="{{ route('tag.destroy',$tag->id) }}" class="d-inline-block"
+                                              method="post">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-sm btn-danger">
                                                 <i class="fas fa-trash-alt fa-fw"></i>
                                             </button>
                                         </form>
-                                        <a href="{{ route('category.edit',$category->id) }}" class="btn btn-sm btn-warning">
+                                        <a href="{{ route('tag.edit',$tag->id) }}" class="btn btn-sm btn-warning">
                                             <i class="fas fa-pencil-alt fa-fw"></i>
                                         </a>
 
@@ -69,13 +61,12 @@
                                     <td>
                                         <p class="small mb-0">
                                             <i class="fas fa-calendar"></i>
-                                            {{ $category->created_at->format("Y-m-d") }}
+                                            {{ $tag->created_at->format("Y-m-d") }}
                                         </p>
                                         <p class="mb-0 small">
                                             <i class="fas fa-clock"></i>
-                                            {{ $category->created_at->format("H:i a") }}
+                                            {{ $tag->created_at->format("H:i a") }}
                                         </p>
-
 
 
                                     </td>
@@ -84,13 +75,13 @@
                             @empty
 
                                 <tr>
-                                    <td colspan="5" class="text-center">There is no Category</td>
+                                    <td colspan="5" class="text-center">There is no Tag</td>
                                 </tr>
 
                             @endforelse
                             </tbody>
                         </table>
-                        {{ $categories->links() }}
+                        {{ $tags->links() }}
                     </div>
 
                 </div>

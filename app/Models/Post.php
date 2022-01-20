@@ -21,4 +21,9 @@ class Post extends Model
     public function photos(){
         return $this->hasMany(Photo::class);
     }
+
+    //many to many
+    public function tags(){
+        return $this->belongsToMany(Tag::class);
+    }
 }
