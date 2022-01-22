@@ -121,7 +121,8 @@
                                        id="flexSwitchCheckDefault" required>
                                 <label class="form-check-label" for="flexSwitchCheckDefault" >Confirm</label>
                             </div>
-                            <button class="btn btn-lg btn-primary" form="updateForm">Update Post</button>
+                            <button class="btn btn
+                            -lg btn-primary" form="updateForm">Update Post</button>
                         </div>
                         <hr>
                     </div>

@@ -16,9 +16,19 @@
     width: 100px;
     height: 100px;
 }
-.post-thumbnail-img{
-    margin-left: -20px;
+//.post-thumbnail-img{
+//    margin-left: -20px;
+//}
+//a > .post-thumbnail-img:first-child {
+//    margin-left: 0px !important;
+//}
+
+
+
+td [data-gall]:first-child .list-thumbnail{
+    margin-left: 0;
 }
-a > .post-thumbnail-img:first-child {
-    margin-left: 0px !important;
+
+.list-thumbnail{
+    margin-left: -20px;
 }

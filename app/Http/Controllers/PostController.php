@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\Photo;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -20,10 +21,15 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::when(isset(request()->search), function ($query) {
-            $search = request()->search;
-            $query->where('title', "LIKE", "%$search%")->orWhere('description', "LIKE", "%$search%");
-        })->latest('id')->paginate(5);
+        $posts = Post::search()->latest('id')->paginate(5); // အောက်က ကွန််မန့်ပေးထားတာနဲ့အတူတူပါပဲ search() method ကို post model ထဲမှာရေးထားပါသည်။
+
+
+
+
+//        $posts = Post::when(isset(request()->search), function ($query) {
+//            $search = request()->search;
+//            $query->where('title', "LIKE", "%$search%")->orWhere('description', "LIKE", "%$search%");
+//        })->with(['user','category','photos','tags'])->latest('id')->paginate(5);
         return view('post.index', compact('posts'));
     }
 
@@ -55,6 +61,8 @@ class PostController extends Controller
             "tags" => "required",
             "tags.*" => "integer|exists:tags,id"
         ]);
+        DB::transaction(function () use($request){ //save()ဆိုတာတွေအကုန် အလုပ်လုပ်မှ database ထဲကို သိမ်းမှာ ပါ
+
 
 
         $post = new Post();
@@ -102,7 +110,7 @@ class PostController extends Controller
 
             }
         }
-
+        });
         return redirect()->route('post.index')->with('status', "Post Created");
 
     }

@@ -17,6 +17,12 @@
                     {{ __('You are logged in!') }}
 
                     {{request()}}
+                    <x-test type="success"></x-test>
+                    <x-test>slot ထည့်ထားလို့သာ ဖော်ပေးခြင်းဖြစ်ပါသည်။ </x-test>
+                    <x-test type="danger">slot ထည့်ထားလို့သာ ဖော်ပေးခြင်းဖြစ်ပါသည်။ </x-test>
+
+                    @zmh
+
                 </div>
             </div>
         </div>

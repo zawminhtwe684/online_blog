@@ -54,4 +54,54 @@ $post->tags()->attach($request->tags);
 
 
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Accessors ထုတ်ပြခြင်း & Mutators ပြန်သွင်းခြင်းဆိုသုံးပါသည် >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ကိုယ်ရချင်တဲ့ Table Model ထဲမှာ ရေးရမှာပါ
+
+FirstName ဆိုတာ Table ထဲက column ပါ စာတွေကို လျော့ပြချင်တဲ့အခါသုံးပါသည်။
+public function getFirstNameAttribute($value)
+{
+return Str::words($value,10)."...";  // ဆိုးကြိုးက edit လုပ်ရင် ပြသာနာရှိပါသည်။
+}
+
+အောက်က ပုံစံသုံးလို့ကောင်းသည်။
+public function getShortNameAttribute()
+{
+return Str::words($this->attributes['လိုချင်တဲ့ကော်လံ'],10)."...";  // ဆိုးကြိုးက edit လုပ်ရင် ပြသာနာရှိပါသည်။
+return Str::words($this->လိုချင်တဲ့ကော်လံ,10)."...";  // ဆိုးကြိုးက edit လုပ်ရင် ပြသာနာရှိပါသည်။
+}
+
+ပြန်ခေါ်သုံးရင်
+$post->short_name
+
+public function getShowTime(){
+return "<p class='small mb-0'>
+        <i class='fas fa-calendar'></i>
+        '.$this->created_at->format('Y-m-d').'
+        </p>
+        <p class='mb-0 small'>
+            <i class='fas fa-clock'></i>
+        '.$this->created_at->format('H:i a').'
+        </p>"
+}
+
+အပေါ်က ကို ပြန်ခေါ်သုံးရင်
+{!! $post->show_time !!}
+
+
+Mutators က ပြန်သွင်းခြင်းဖြစ်ပါသည်။
+
+public function setFirstNameAttribute($value)
+{
+$this->attributes['first_name'] = Str::slug($value);
+}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Constraining Eager Loads>>>>>>>>>>>>>>>>>>>>>>query run တာကို လျော့ချခြင်းဖြစ်ပါသည်။ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+public function index()
+{
+$posts = Post::when(isset(request()->search), function ($query) {
+$search = request()->search;
+$query->where('title', "LIKE", "%$search%")->orWhere('description', "LIKE", "%$search%");
+})->with(['úser','category','photo','tags'])->latest('id')->paginate(5); // with နဲ့ table တွေကို ခေါ်သုံးထားလို့ query လျော့ချပါသည်။
+return view('post.index', compact('posts'));
+}
+

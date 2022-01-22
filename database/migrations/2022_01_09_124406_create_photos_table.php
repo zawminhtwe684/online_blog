@@ -18,6 +18,7 @@ class CreatePhotosTable extends Migration
             $table->string('name');
             $table->bigInteger('user_id');
             $table->bigInteger('post_id');
+//            $table->foreignId('post_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

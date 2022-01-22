@@ -36,7 +36,7 @@
 {{--                                {{ session('status') }}--}}
 {{--                            </p>--}}
 {{--                        @endif--}}
-                        <table class="table table-hover align-middle table-bordered border-dark">
+                        <table class="table table-hover align-middle table-responsive">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -56,15 +56,20 @@
                                     <td>{{ $post->id }}</td>
                                     <td class="small">{{ Str::words($post->title,10) }}</td>
                                     <td>
-{{--                                        {{$post->photos}}--}}
-                                        @forelse($post->photos()->latest('id')->limit(3)->get() as $photo)
-                                            <a class="venobox" data-gall="{{$post->id}}" href="{{asset("storage/photo/".$photo->name)}}">
-                                                <img src="{{asset("storage/thumbnail/".$photo->name)}}" class="rounded-circle border border-2 shadow-sm post-thumbnail-img" alt="image" height="40px"/>
+                                        {{--@forelse($post->photos()->latest('id')->limit(3)->get() as $photo)--}}
+                                        @forelse($post->photos as $key=>$photo)
+
+                                            @if($key==3)
+                                                @break
+                                            @endif
+
+                                            <a class="venobox" data-gall="img{{ $post->id }}" href="{{ asset('storage/photo/'.$photo->name) }}">
+                                                <img src="{{ asset('storage/thumbnail/'.$photo->name) }}" class="rounded-circle border border-2 border-white shadow-sm list-thumbnail" height="40" alt="image alt"/>
                                             </a>
+
                                         @empty
                                             <p class="text-muted">No Photo</p>
                                         @endforelse
-
                                     </td>
                                      <td>
                                         <div class="form-check form-switch">
